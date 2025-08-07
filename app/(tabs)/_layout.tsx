@@ -37,9 +37,18 @@ export default function TabLayout() {
 				}}
 			/>
 			<Tabs.Screen
-				name="video.index"
+				name="upload"
 				options={{
-					title: "Video",
+					title: "Upload",
+					tabBarIcon: ({ color }) => (
+						<IconSymbol size={28} name="house.fill" color={color} />
+					),
+				}}
+			/>
+			<Tabs.Screen
+				name="watch"
+				options={{
+					title: "Watch",
 					tabBarIcon: ({ color }) => (
 						<IconSymbol size={28} name="house.fill" color={color} />
 					),
@@ -48,7 +57,7 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name="explore"
 				options={{
-					title: "Explore",
+					title: "Explorae",
 					tabBarIcon: ({ color }) => (
 						<IconSymbol size={28} name="paperplane.fill" color={color} />
 					),
