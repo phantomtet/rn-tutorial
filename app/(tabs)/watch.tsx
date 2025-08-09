@@ -1,7 +1,7 @@
-import StyledPlayerView from "@/components/styled-components/player-view";
 import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@react-navigation/elements";
 import {
+	PlayerView,
 	ReadyEvent,
 	SourceType,
 	usePlayer,
@@ -19,8 +19,9 @@ export default function PlayerSample() {
 	const player = usePlayer({
 		styleConfig: {
 			userInterfaceType: UserInterfaceType.Bitmovin,
-			playerUiCss:
-				"https://gist.githubusercontent.com/eirikbakke/1059266/raw/d81dba46c76169c2b253de0baed790677883c221/gistfile1.css",
+			isUiEnabled: true,
+			supplementalPlayerUiCss:
+				"https://raw.githubusercontent.com/phantomtet/rn-tutorial/refs/heads/master/testcss.css",
 		},
 	});
 
@@ -36,7 +37,7 @@ export default function PlayerSample() {
 	}, [player]);
 	return (
 		<ThemedView style={styles.flex1}>
-			<StyledPlayerView
+			<PlayerView
 				config={{ uiConfig: {} }}
 				style={styles.flex1}
 				player={player}
