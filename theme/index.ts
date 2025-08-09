@@ -5,6 +5,7 @@ const theme: ThemeProp = {
 	roundness: 0,
 	colors: {
 		...DefaultTheme.colors,
+		primary: "green",
 	},
 };
 export default theme;

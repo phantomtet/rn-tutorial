@@ -1,12 +1,16 @@
 import api from "@/api/axios";
+import EncodeStatus from "@/components/encode-status";
+import { TEncodeStatus } from "@/types";
 import { objectToFormData, uploadFileInChunksOptimized } from "@/utils";
 import * as DocumentPicker from "expo-document-picker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { View } from "react-native";
 import { Button, ProgressBar, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function UploadPage() {
-	const [progress, setProgress] = useState(0);
+	const [progress, setProgress] = useState(1);
+	const [encodeStatus, setEncodeStatus] = useState<TEncodeStatus>("pending");
 	const onUploadButtonClick = async () => {
 		const result = await DocumentPicker.getDocumentAsync();
 		if (result.canceled) return;
@@ -46,14 +50,27 @@ export default function UploadPage() {
 		}
 		// console.log("hể", bytesToBase64(mergeChunks(mergeString)));
 	};
+	useEffect(() => {
+		setTimeout(() => setEncodeStatus("finished"), 3000);
+		setTimeout(() => setEncodeStatus("failed"), 6000);
+	}, []);
 	return (
 		<SafeAreaView style={{ padding: 10 }}>
 			<Button mode="contained" onPress={onUploadButtonClick}>
 				Upload
 			</Button>
 			<Button onPress={handleUploadBigFile}>Calll api</Button>
-			<Text>Progress bar</Text>
+			<Text>Progress bar: {progress}</Text>
 			<ProgressBar progress={progress} />
+			<View
+				style={{
+					display: progress === 1 ? "flex" : "none",
+					marginTop: 10,
+				}}
+			>
+				<EncodeStatus encodeStatus={encodeStatus} />
+			</View>
+			<Text>a</Text>
 		</SafeAreaView>
 	);
 }
