@@ -9,19 +9,9 @@ import { Button, ProgressBar, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function UploadPage() {
-	const [progress, setProgress] = useState(1);
+	const [progress, setProgress] = useState(0);
 	const [encodeStatus, setEncodeStatus] = useState<TEncodeStatus>("pending");
-	const onUploadButtonClick = async () => {
-		const result = await DocumentPicker.getDocumentAsync();
-		if (result.canceled) return;
-		const formData = objectToFormData({ file: result.assets[0] });
-		api.post("/", formData, {
-			headers: {
-				"Content-Type": "multipart/form-data",
-			},
-		});
-		console.log("assets", typeof result.assets[0]);
-	};
+
 	const handleUploadBigFile = async () => {
 		setProgress(0);
 		const result = await DocumentPicker.getDocumentAsync();
@@ -45,21 +35,18 @@ export default function UploadPage() {
 					setProgress((prev) => (prev < percentage ? percentage : prev));
 				},
 			);
+			console.log("success");
 		} catch (error) {
 			console.log("err", error);
 		}
-		// console.log("hể", bytesToBase64(mergeChunks(mergeString)));
 	};
-	useEffect(() => {
-		setTimeout(() => setEncodeStatus("finished"), 3000);
-		setTimeout(() => setEncodeStatus("failed"), 6000);
-	}, []);
+
 	return (
-		<SafeAreaView style={{ padding: 10 }}>
-			<Button mode="contained" onPress={onUploadButtonClick}>
-				Upload
+		<SafeAreaView style={{ padding: 10, borderWidth: 2 }}>
+			<Button mode="contained" onPress={handleUploadBigFile}>
+				Choose a video
 			</Button>
-			<Button onPress={handleUploadBigFile}>Calll api</Button>
+			<Button onPress={handleUploadBigFile}>Upload</Button>
 			<Text>Progress bar: {progress}</Text>
 			<ProgressBar progress={progress} />
 			<View
@@ -70,7 +57,7 @@ export default function UploadPage() {
 			>
 				<EncodeStatus encodeStatus={encodeStatus} />
 			</View>
-			<Text>a</Text>
+			<Text>Preview</Text>
 		</SafeAreaView>
 	);
 }
